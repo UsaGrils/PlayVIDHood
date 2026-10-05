@@ -1,0 +1,735 @@
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+<meta charset="UTF-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NextWatchMedia</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  background:#050505;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  overflow-x:hidden;
+  color:#fff;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at top,#ff005522,transparent 35%),
+    radial-gradient(circle at bottom,#0055ff22,transparent 35%);
+  z-index:-1;
+}
+
+.page{
+  width:100%;
+  max-width:480px;
+  margin:auto;
+  min-height:100vh;
+  padding-bottom:50px;
+}
+
+.header{
+  padding:18px;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+.logo span{
+  color:#ff2f6d;
+}
+
+.sub{
+  margin-top:6px;
+  color:#999;
+  font-size:13px;
+}
+
+
+/* =========================
+   VIDEO CARD
+========================= */
+
+.video-card{
+  margin:12px;
+  background:#111;
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.05),
+    0 20px 40px rgba(0,0,0,0.45);
+}
+
+.video-box{
+  position:relative;
+  background:#000;
+  min-height:250px;
+}
+
+video{
+  width:100%;
+  max-height:75vh;
+  display:block;
+  object-fit:contain;
+  background:#000;
+}
+
+.video-box::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:120px;
+  background:linear-gradient(to top,#000000dd,transparent);
+  pointer-events:none;
+}
+
+#videoLoader{
+  position:absolute;
+  inset:0;
+  background:#000;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+  font-weight:600;
+  letter-spacing:0.5px;
+  z-index:10;
+}
+
+
+/* =========================
+   WATCH BUTTONS
+========================= */
+
+.watch-full-btn,
+.vip-video-btn{
+  display:block;
+  margin:14px 16px 0;
+  padding:14px 20px;
+  color:#fff;
+  text-align:center;
+  text-decoration:none;
+  font-size:15px;
+  font-weight:700;
+  border-radius:12px;
+  transition:
+    transform 0.2s,
+    opacity 0.2s,
+    box-shadow 0.2s;
+}
+
+.watch-full-btn{
+  background:#ff2f6d;
+  box-shadow:0 5px 15px rgba(255,0,102,0.3);
+}
+
+.watch-full-btn:active,
+.vip-video-btn:active{
+  transform:scale(0.97);
+  opacity:0.9;
+}
+
+
+/* =========================
+   VVIP BUTTON
+========================= */
+
+.vip-video-btn{
+  position:relative;
+  margin-top:10px;
+  background:linear-gradient(
+    135deg,
+    #7b2cff,
+    #d21fff,
+    #ff2f6d
+  );
+  border:1px solid rgba(255,255,255,0.2);
+  box-shadow:
+    0 6px 20px rgba(168,45,255,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  overflow:hidden;
+}
+
+.vip-video-btn::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:60%;
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.3),
+    transparent
+  );
+  transform:skewX(-20deg);
+  animation:vipShine 3s infinite;
+}
+
+.vip-video-btn span{
+  position:relative;
+  z-index:2;
+}
+
+@keyframes vipShine{
+
+  0%{
+    left:-100%;
+  }
+
+  45%,100%{
+    left:150%;
+  }
+
+}
+
+
+/* =========================
+   VIDEO INFO
+========================= */
+
+.video-info{
+  padding:16px;
+}
+
+.video-title{
+  font-size:20px;
+  font-weight:700;
+  line-height:1.4;
+}
+
+.video-desc{
+  margin-top:10px;
+  color:#aaa;
+  font-size:14px;
+  line-height:1.6;
+}
+
+.stats{
+  display:flex;
+  gap:14px;
+  margin-top:14px;
+  color:#ccc;
+  font-size:13px;
+  flex-wrap:wrap;
+}
+
+
+/* =========================
+   SECTION
+========================= */
+
+.section-title{
+  padding:18px 16px 10px;
+  font-size:18px;
+  font-weight:700;
+}
+
+
+/* =========================
+   NATIVE BANNER
+========================= */
+
+.ads-card{
+  margin:12px;
+  background:#121212;
+  border-radius:20px;
+  padding:14px;
+  border:1px solid rgba(255,255,255,0.05);
+  overflow:hidden;
+}
+
+.ads-label{
+  color:#777;
+  font-size:11px;
+  text-transform:uppercase;
+  margin-bottom:12px;
+  letter-spacing:1px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+  text-align:center;
+  color:#666;
+  font-size:12px;
+  padding:30px 15px;
+}
+
+
+@media(max-width:480px){
+
+  .video-title{
+    font-size:18px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<div class="header">
+
+  <div class="logo">
+    Next Viral <span>Hubs</span>
+  </div>
+
+  <div class="sub">
+    Watch trending viral videos everyday 🔥
+  </div>
+
+</div>
+
+
+<!-- =========================
+     VIDEO CARD
+========================= -->
+
+<div class="video-card">
+
+  <div class="video-box">
+
+    <div id="videoLoader">
+      Video load in 1 second...
+    </div>
+
+    <video
+      controls
+      controlsList="nodownload noremoteplayback"
+      disablePictureInPicture
+      id="player"
+      muted
+      playsinline
+      poster="https://via.placeholder.com/480x720?text=Loading..."
+      preload="metadata">
+
+      <source
+        id="videoSource"
+        src=""
+        type="video/mp4">
+
+    </video>
+
+  </div>
+
+
+  <!-- WATCH FULL VIDEO -->
+
+  <a
+    class="watch-full-btn"
+    href="https://x-hubb.github.io/Badiesgirlhub/"
+    target="_blank"
+    rel="noopener noreferrer">
+
+    ▶ Watch Full Vid
+
+  </a>
+
+
+  <!-- VIDEO VVIP -->
+
+  <a
+    class="vip-video-btn"
+    href="https://omg10.com/4/11462883"
+    target="_blank"
+    rel="noopener noreferrer">
+
+    <span>💎 VID PART 2 </span>
+
+  </a>
+
+
+  <div class="video-info">
+
+    <div class="video-title">
+      Hot Trending Video Tonight 😍
+    </div>
+
+    <div class="video-desc">
+      Watch the latest viral content people are talking about right now.
+    </div>
+
+    <div class="stats">
+      <div>👁 9.3M Views</div>
+      <div>❤️ 421K Likes</div>
+      <div>🔥 Trending</div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     TRENDING
+========================= -->
+
+<div class="section-title">
+  🔥 Trending Videos
+</div>
+
+
+<!-- =========================
+     NATIVE BANNER
+     DI BAWAH TRENDING
+========================= -->
+
+<div class="ads-card">
+
+  <div class="ads-label">
+    <center>Advertisement</center>
+  </div>
+
+  <div style="text-align:center;">
+
+    <script
+      data-cfasync="false"
+      async
+      type="text/javascript"
+      src="//qw.rolledipocras.com/tiTtAiKEeLuZ/151239">
+    </script>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<div class="footer">
+  © 2026 Viral Media • All Rights Reserved
+</div>
+
+</div>
+
+
+<!-- =========================
+     VIDEO JAVASCRIPT
+========================= -->
+
+<script>
+
+(function(){
+
+  const impressionSeen = new Set();
+
+  function tagImpression(name, element){
+
+    if(!element || impressionSeen.has(name)){
+      return;
+    }
+
+    impressionSeen.add(name);
+
+    try{
+
+      const key = "nextwatch_impressions";
+
+      const data = JSON.parse(
+        localStorage.getItem(key) || "[]"
+      );
+
+      data.push({
+        event:name,
+        time:new Date().toISOString(),
+        page:location.href
+      });
+
+      localStorage.setItem(
+        key,
+        JSON.stringify(data.slice(-100))
+      );
+
+    }catch(e){}
+
+    element.setAttribute(
+      "data-impression-tagged",
+      "true"
+    );
+
+  }
+
+
+  /* PAGE IMPRESSION */
+
+  tagImpression(
+    "page_impression",
+    document.body
+  );
+
+
+  /* ELEMENTS */
+
+  const videoCard =
+    document.querySelector(".video-card");
+
+  const adCard =
+    document.querySelector(".ads-card");
+
+
+  /* INTERSECTION OBSERVER */
+
+  if("IntersectionObserver" in window){
+
+    const observer =
+      new IntersectionObserver(
+
+        (entries)=>{
+
+          entries.forEach(entry=>{
+
+            if(
+              !entry.isIntersecting ||
+              entry.intersectionRatio < 0.25
+            ){
+              return;
+            }
+
+
+            if(entry.target === videoCard){
+
+              tagImpression(
+                "video_impression",
+                entry.target
+              );
+
+            }
+
+
+            if(entry.target === adCard){
+
+              tagImpression(
+                "native_banner_impression",
+                entry.target
+              );
+
+            }
+
+            observer.unobserve(entry.target);
+
+          });
+
+        },
+
+        {
+          threshold:[0.25]
+        }
+
+      );
+
+
+    if(videoCard){
+      observer.observe(videoCard);
+    }
+
+    if(adCard){
+      observer.observe(adCard);
+    }
+
+
+  }else{
+
+    tagImpression(
+      "video_impression",
+      videoCard
+    );
+
+    tagImpression(
+      "native_banner_impression",
+      adCard
+    );
+
+  }
+
+
+  /* VIDEO PARAMETER */
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  let video = params.get("v");
+
+
+  /* DEFAULT VIDEO */
+
+  if(!video){
+    video = "JLzHXit51";
+  }
+
+
+  /* VIDEY URL */
+
+  if(!video.startsWith("http")){
+
+    video =
+      "https://cdn.videy.co/" +
+      video;
+
+  }
+
+
+  if(!video.endsWith(".mp4")){
+
+    video += ".mp4";
+
+  }
+
+
+  /* VIDEO ELEMENT */
+
+  const player =
+    document.getElementById("player");
+
+  const source =
+    document.getElementById("videoSource");
+
+  const loader =
+    document.getElementById("videoLoader");
+
+
+  source.src = video;
+
+  player.load();
+
+
+  /* LOADING 1 DETIK */
+
+  setTimeout(function(){
+
+    loader.style.display = "none";
+
+    player.play().catch(
+      function(){}
+    );
+
+  },1000);
+
+
+  /* DISABLE RIGHT CLICK */
+
+  player.addEventListener(
+    "contextmenu",
+    function(e){
+
+      e.preventDefault();
+
+    }
+  );
+
+})();
+
+</script>
+
+
+<!-- =========================
+     HISTATS
+========================= -->
+
+<div id="histats_counter"></div>
+
+<script type="text/javascript">
+
+var _Hasync = _Hasync || [];
+
+_Hasync.push([
+  "Histats.start",
+  "1,5044704,4,9,110,60,00011111"
+]);
+
+_Hasync.push([
+  "Histats.fasi",
+  "1"
+]);
+
+_Hasync.push([
+  "Histats.track_hits",
+  ""
+]);
+
+(function(){
+
+  var hs =
+    document.createElement("script");
+
+  hs.type = "text/javascript";
+
+  hs.async = true;
+
+  hs.src =
+    "//s10.histats.com/js15_as.js";
+
+  (
+    document.getElementsByTagName("head")[0] ||
+    document.getElementsByTagName("body")[0]
+  ).appendChild(hs);
+
+})();
+
+</script>
+
+
+<noscript>
+
+  <a href="/" target="_blank">
+
+    <img
+      src="//sstatic1.histats.com/0.gif?5044704&101"
+      alt="counter create hit"
+      border="0">
+
+  </a>
+
+</noscript>
+
+
+<!-- =========================
+     SOCIAL BAR
+========================= -->
+
+<script
+  data-cfasync="false"
+  async
+  type="text/javascript"
+  src="//fm.alogiansear.com/sZv9RYvDxzcLBvzr/155996">
+</script>
+
+
+</body>
+</html>
